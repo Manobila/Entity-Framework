@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using SalesWebMvc.Models;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using SalesWebMvc.Models.ViewModels;
 
 namespace SalesWebMvc.Controllers
 {
