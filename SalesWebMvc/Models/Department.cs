@@ -2,6 +2,13 @@
 {
     public class Department
     {
+        public Department(int id, string name, List<Seller> sellers)
+        {
+            Id = id;
+            Name = name;
+            this.sellers = sellers;
+        }
+
         public int Id { get; set; }
         public string Name { get; set; }
         public List<Seller> sellers { get; set; }
@@ -18,16 +25,6 @@
             sellers.Remove(seller);
 
         }
-
-
-
-
-
-
-
-
-
-
 
 
 
