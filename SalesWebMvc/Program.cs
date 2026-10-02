@@ -1,6 +1,8 @@
+using AspNetCoreGeneratedDocument;
 using Microsoft.EntityFrameworkCore;
 using SalesWebMvc.Data;
 using SalesWebMvc.Models;
+using SalesWebMvc.Services;
 using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,7 +19,7 @@ builder.Services.AddDbContext<SalesWebMvcContext>(options =>
     options.UseMySql(connectionString, serverVersion, b => b.MigrationsAssembly("SalesWebMvc")));
 
 builder.Services.AddScoped<SeedingService>();
-
+builder.Services.AddScoped<SellerService>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
