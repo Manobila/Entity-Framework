@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using SalesWebMvc.Models;
 using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
