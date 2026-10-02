@@ -1,8 +1,18 @@
 using Microsoft.EntityFrameworkCore;
-var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration.GetConnectionString("SalesWebMvcContext") ?? throw new InvalidOperationException("Connection string 'SalesWebMvcContext' not found.");
+using System.Configuration;
 
-builder.Services.AddDbContext<SalesWebMvcContext>(options => options.UseSqlServer(connectionString));
+var builder = WebApplication.CreateBuilder(args);
+
+// 1. Busca a string de conexão configurada no appsettings.json
+var connectionString = builder.Configuration.GetConnectionString("SalesWebMvcContext")
+    ?? throw new InvalidOperationException("Connection string 'SalesWebMvcContext' not found.");
+
+// 2. Detecta automaticamente a versão do seu servidor MySQL
+var serverVersion = ServerVersion.AutoDetect(connectionString);
+
+// 3. Substitui o SQL Server pelo Pomelo MySQL
+builder.Services.AddDbContext<SalesWebMvcContext>(options =>
+    options.UseMySql(connectionString, serverVersion, b => b.MigrationsAssembly("SalesWebMvc")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -13,7 +23,6 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
