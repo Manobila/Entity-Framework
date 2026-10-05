@@ -1,9 +1,11 @@
 using AspNetCoreGeneratedDocument;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using SalesWebMvc.Data;
 using SalesWebMvc.Models;
 using SalesWebMvc.Services;
 using System.Configuration;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,6 +48,17 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+var emUs = new CultureInfo("en-US");
+var localizationOpdions = new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture(emUs),
+    SupportedCultures = new List<CultureInfo> { emUs },
+    SupportedUICultures = new List<CultureInfo> { emUs }
+};
+app.UseRequestLocalization(localizationOpdions);
+
+
 
 using (var scope = app.Services.CreateScope())
 {
