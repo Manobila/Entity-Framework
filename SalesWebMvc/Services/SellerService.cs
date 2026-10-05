@@ -22,7 +22,7 @@ namespace SalesWebMvc.Services
 
         public Seller FindById(int id) { 
         
-        return _contex.Seller.FirstOrDefault(obj => obj.Id == id);
+        return _contex.Seller.Include(obj => obj.Department).FirstOrDefault(obj => obj.Id == id);
         
         }
 
