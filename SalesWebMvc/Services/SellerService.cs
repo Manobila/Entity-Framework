@@ -34,10 +34,26 @@ namespace SalesWebMvc.Services
 
         public async Task RemoveAsync(int id)
         {
-            var obj = await _context.Seller.FindAsync(id);
-            _context.Seller.Remove(obj);
-            await _context.SaveChangesAsync();
+            await ExixtSalesRecordOfThisSllerAsync(id);
+            try
+            {
+                var obj = await _context.Seller.FindAsync(id);
+                _context.Seller.Remove(obj);
+                await _context.SaveChangesAsync();
+            }
+            catch(DbUpdateException dbe)
+            {
+                throw new IntegrityException(dbe.Message);
+            }
         }
+
+        private async Task ExixtSalesRecordOfThisSllerAsync(int id) {
+            bool hasAny = await _context.SalesRecords.AnyAsync(obj => obj.Seller.Id == id);
+            if (hasAny) {
+                throw new IntegrityException("cannot delete seller without first deleting all reference data of sales record");
+            }
+        }
+
 
         public async Task UpdateAsync(Seller obj)
         {
