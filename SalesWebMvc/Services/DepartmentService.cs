@@ -5,16 +5,16 @@ namespace SalesWebMvc.Services
 {
     public class DepartmentService
     {
-        private readonly SalesWebMvcContext _contex;
+        private readonly SalesWebMvcContext _context;
 
         public DepartmentService(SalesWebMvcContext contex)
         {
-            _contex = contex;
+            _context = contex;
         }
 
         public async Task<List<Department>> FindAllAsync()
         {
-            return await _contex.Department.OrderBy(x=>x.Name).ToListAsync();
+            return await _context.Department.OrderBy(x => x.Name).ToListAsync();
         }
 
 

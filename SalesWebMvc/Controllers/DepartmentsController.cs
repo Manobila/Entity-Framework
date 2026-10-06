@@ -5,17 +5,17 @@ using SalesWebMvc.Models;
 
 public class DepartmentsController : Controller
 {
-    private readonly SalesWebMvcContext _context;
+    private readonly SalesWebMvcContext _contextt;
 
     public DepartmentsController(SalesWebMvcContext context)
     {
-        _context = context;
+        _contextt = context;
     }
 
     // GET: DEPARTMENTS
     public async Task<IActionResult> Index()    
     {
-        return View(await _context.Department.ToListAsync());
+        return View(await _contextt.Department.ToListAsync());
     }
 
     // GET: DEPARTMENTS/Details/5
@@ -26,7 +26,7 @@ public class DepartmentsController : Controller
             return NotFound();
         }
 
-        var department = await _context.Department
+        var department = await _contextt.Department
             .FirstOrDefaultAsync(m => m.Id == id);
         if (department == null)
         {
@@ -51,8 +51,8 @@ public class DepartmentsController : Controller
     {
         if (ModelState.IsValid)
         {
-            _context.Add(department);
-            await _context.SaveChangesAsync();
+            _contextt.Add(department);
+            await _contextt.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
         return View(department);
@@ -66,7 +66,7 @@ public class DepartmentsController : Controller
             return NotFound();
         }
 
-        var department = await _context.Department.FindAsync(id);
+        var department = await _contextt.Department.FindAsync(id);
         if (department == null)
         {
             return NotFound();
@@ -90,8 +90,8 @@ public class DepartmentsController : Controller
         {
             try
             {
-                _context.Update(department);
-                await _context.SaveChangesAsync();
+                _contextt.Update(department);
+                await _contextt.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -117,7 +117,7 @@ public class DepartmentsController : Controller
             return NotFound();
         }
 
-        var department = await _context.Department
+        var department = await _contextt.Department
             .FirstOrDefaultAsync(m => m.Id == id);
         if (department == null)
         {
@@ -132,18 +132,18 @@ public class DepartmentsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int? id)
     {
-        var department = await _context.Department.FindAsync(id);
+        var department = await _contextt.Department.FindAsync(id);
         if (department != null)
         {
-            _context.Department.Remove(department);
+            _contextt.Department.Remove(department);
         }
 
-        await _context.SaveChangesAsync();
+        await _contextt.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
 
     private bool DepartmentExists(int? id)
     {
-        return _context.Department.Any(e => e.Id == id);
+        return _contextt.Department.Any(e => e.Id == id);
     }
 }
